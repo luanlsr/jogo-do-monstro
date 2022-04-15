@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Matador de Monstro</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1 class="title">JOGO DO MONSTRO</h1>
+        <div class="panel scores">
+            <div class="score">
+                <h1>Jogador</h1>
+                <div class="lifeBar">
+                    <div class="life" :class="{danger: playerLife < 20}" :style="{width: playerLife + '%'}"></div>
+                </div>
+                <p class="percent">{{playerLife}}%</p>
+            </div>
+            <div class="score">
+                <h1>Monstro</h1>
+                <div class="lifeBar">
+                    <div class="life" :class="{danger: monsterLife < 20}" :style="{width: monsterLife + '%'}"></div>
+                </div>
+                <p class="percent">{{monsterLife}}%</p>
+            </div>
+        </div>
+        <div v-if="hasResult" class="panel result">
+            <div v-if="monsterLife == 0" class="win">Você ganhou!!! :)</div>
+            <div v-else class="lose">Você perdeu!!! :( </div>
+        </div>
+        <div class="panel buttons">
+            <template v-if="running">
+                <button @click="attack(false)" class="btn attack">ATAQUE</button>
+                <button @click="attack(true)" class=" btn specialAttack">ATAQUE ESPECIAL</button>
+                <button @click="healAndHurt" class="btn heal">CURAR</button>
+                <button @click="running = false" class="btn giveUp">DESISTIR</button>
+            </template>
+            <button v-else @click="starGame()" class="btn newGame">INICIAR JOGO</button>
+
+        </div>
+        <div v-if="logs.length" class="panel logs">
+            <ul>
+                <li v-for="log in logs" :class="log.cls" class="log gamers">{{log.text}}</li>
+            </ul>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
